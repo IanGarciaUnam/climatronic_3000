@@ -1,21 +1,35 @@
 import requests
 import os
-# Clase que modela una ciudad en función de temperatura
+from googletrans import Translator
 class City:
-    def __init__(self, nombre, temperatura, descripcion):
-        self.nombre = nombre
-        self.temperatura = temperatura
-        self.descripcion = descripcion
+  """ Clase que modela una ciudad en función de temperatura """
+  def __init__(self, nombre, temperatura, descripcion):
+    """ Contructor a partir del nombre, temperatura y descripción"""
+    self.nombre = nombre
+    self.temperatura = int(temperatura - 273.15) # La temperatura del API está en Kelvin, los convertimos a °C
+    self.transalator = Translator() # Tradcutor para la descripción del cielo
+    self.descripcion = self.transalator.translate(descripcion, src = 'en', dest = 'es').text
 
-    def imprime_ciudad(self):
-        d = {"Ciudad" : self.nombre, "Temperatura" : self.temperatura, "Descripción" : self.descripcion,}
-        return d
-    def formato(self):
-      return "Pasajeros con destino a "+ self.nombre+ "se encuentra con una temperatura de "+ str(int(self.temperatura/10)) +" Grados Centigrados, Y un cielo"+ self.descripcion  
-    def get_nombre():
-      return str(self.nombre)
-    def get_temperatura():
-      return str(self.temperatura)
-    def get_descripcion_clima():
-      return str(self.descripcion)
+  def imprime_ciudad(self):
+    """ Regresa un diccionario con la información de la ciudad"""
+
+    d = {"Ciudad" : self.nombre, "Temperatura" : str(self.temperatura) + "°C", "Descripción" : self.descripcion,}
+    return d
+
+  def formato(self):
+    """ Regresa una cadena con la información en formato para que el asistente de voz lo diga"""
+
+    return "Pasajeros con destino a "+ self.nombre+ ", se encuentra con una temperatura de "+ str(self.temperatura) +" Grados Centigrados, Y un cielo con "+ self.descripcion
+
+  def get_nombre(self):
+    """ Regresa el nombre de la ciudad """
+    return str(self.nombre)
+
+  def get_temperatura(self):
+    """ Regresa la temperatura de la ciudad """
+    return str(self.temperatura)
+
+  def get_descripcion_clima(self):
+    """ Regresa la descripción de la ciudad """
+    return str(self.descripcion)
 
