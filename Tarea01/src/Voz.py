@@ -8,7 +8,6 @@ import os
 import random
 from gtts import gTTS
 from playsound import playsound
-#import speech_recognition as sr
 import tiempo as time
 
 

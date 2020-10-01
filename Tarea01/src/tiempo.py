@@ -1,6 +1,6 @@
 from datetime import datetime
 now = datetime.now()
-
+print(now)
 
 def get_local_date():
 	months = ("Enero", "Febrero", "Marzo", "Abri", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
