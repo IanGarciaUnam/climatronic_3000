@@ -3,7 +3,7 @@ import os
 import random
 from gtts import gTTS
 from playsound import playsound
-import tiempo as time
+import Tiempo as time
 
 
 
@@ -26,7 +26,6 @@ class Voz:
 		""" Recibe una frase y hace que gtts guarde en un archivo de voz el contenido de la frase y lo reproduzca. """
 		my_word = str(word)
 		tts = gTTS(my_word, lang = 'es-us') # Frase e idioma en el que la voz será
->>>>>>> refs/remotes/origin/master
 		tts.save("resources/speaking.mp3")	
 		playsound("resources/speaking.mp3")
 

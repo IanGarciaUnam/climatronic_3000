@@ -1,13 +1,4 @@
-<<<<<<< HEAD
+Acapulco
+Ciudad de Mexico
 Guanajuato
 Irapuato
-Guanajuato
-Guanajuato
-Guanajuato
-Ciudad de Mexico
-Acapulco
-París
-=======
-Frankfurt
-Dublin
->>>>>>> refs/remotes/origin/master

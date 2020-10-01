@@ -41,3 +41,9 @@ class Tiempo:
 		if int(self.now.hour) > 12:
 			return 'PM'
 		return 'AM'
+
+	def convert_into_hour(self,hora_string):
+		"""Regresa una hora convertida en fecha"""
+		text=str(hora_string)
+		hora=datetime.strptime(text, '%-H:%M')
+		return hora

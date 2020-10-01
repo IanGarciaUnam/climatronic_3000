@@ -19,8 +19,9 @@ for city in conjunto:
   json_data = requests.get(url).json()
 
   ciudad = City(city, json_data['main']['temp'], json_data['weather'][0]['description'])
-
-  print(ciudad.imprime_ciudad())
+  print(ciudad)
   voice.into_start()
   voice.greet()
   voice.say(ciudad.formato())
+
+
