@@ -1,0 +1,51 @@
+MID
+PHL // Philadephia
+SLP
+HAV //  HAVANA
+AMS // AMSTERDAM
+AGU 
+CZM
+CLT // Charlotte
+PBC 
+ZIH
+HMO
+TAM
+CTM
+GDL
+CME
+PVR
+YVR // Vancouver
+MAD // Madrid
+DFW // Dallas
+YYZ // Toronto
+BJX 
+CEN
+LAX // Los Angeles
+ZCL 
+CUN
+SCL // Santiago
+MZT
+ORD // Chicago
+PHX // Phonix
+QRO
+CUU
+BOG // BOGOTA
+MEX
+TLC
+MIA // MIAMI
+ACA
+TRC
+IAH // HOUSTON
+BZE // Belice
+ATL // Atlanta
+OAX
+LIM // Lima
+VER
+VSA
+CJS
+MTY
+HUX
+JFK // nEW yORK
+GUA // Guatemala
+PXM
+CDG // Paris
