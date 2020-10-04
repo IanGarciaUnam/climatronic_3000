@@ -1,12 +1,13 @@
-from Voz import Voz
-from City import City
-import requests
-import os
+
 from AnalizadorDatos import AnalizadorDatos
 
 analizer = AnalizadorDatos()
 
-analizer.dataSet1()
+#print(analizer.ciudades_set1())
+#analizer.dataSet1()
+#print(analizer.get_cache())())
+analizer.dataSet2()
+
 
 
 
