@@ -3,15 +3,7 @@ import os
 from googletrans import Translator
 from Tiempo import Tiempo
 class City:
-  """ Clase que modela una ciudad en función de temperatura """
-  def __init__(self, nombre, temperatura, descripcion, hora_salida, hora_llegada):
-    """ Contructor a partir del nombre, temperatura y descripción"""
-    self.nombre = nombre
-    self.temperatura = int(temperatura - 273.15) # La temperatura del API está en Kelvin, los convertimos a °C
-    self.transalator = Translator() # Tradcutor para la descripción del cielo
-    self.descripcion = self.transalator.translate(descripcion, src = 'en', dest = 'es').text
-    self.hora_salida=Tiempo.convert_into_hour(str(hora_salida))
-    self.hora_llegada=Tiempo.convert_into_hour(str(hora_llegada))
+
 
   def __init__(self, nombre, temperatura, descripcion):
    """ Contructor a partir del nombre, temperatura y descripción"""
@@ -22,16 +14,29 @@ class City:
    self.hora_salida=None
    self.hora_llegada=None
 
+  def set_hora_salida(self, hora_salida):
+    self.hora_salida=Time.convert_into_hour(hora_salida)
+
+  def set_hora_llegada(self, hora_llegada):
+    self.hora_llegada=Time.convert_into_hour(hora_llegada)
+
+
   def imprime_ciudad(self):
     """ Regresa un diccionario con la información de la ciudad"""
-
-    d = {"Ciudad" : self.nombre, "Temperatura" : str(self.temperatura) + "°C", "Descripción" : self.descripcion,}
+    d = "{ Ciudad : self.nombre, \"Temperatura\" :"+ str(self.temperatura) + "\"°C\", \"Descripción\" : "+self.descripcion+",}"
     return d
 
   def formato(self):
     """ Regresa una cadena con la información en formato para que el asistente de voz lo diga"""
 
-    return "Pasajeros con destino a "+ self.nombre+ ", se encuentra con una temperatura de "+ str(self.temperatura) +" Grados Centigrados, Y un cielo con "+ self.descripcion
+    return "Pasajeros con destino a "+ self.nombre+ ", se encuentra con una temperatura de "+ str(self.temperatura) +" Grados Centigrados, Y con "+ self.descripcion
+
+  def formato_salida(self):
+    """Regresa una cadena con la informacion lista para ser dicha por la asistente de voz dando información de la hora"""
+    if self.temperatura==None or self.descripcion == None:
+      return "Vuelo proximo a salir con horario de las " +self.hora_salida + " y Destino " + self.nombre + "Excelente viaje"
+    return "Vuelo con salida de las "+ self.hora_salida +" horas, con Destino como " + self.nombre + " Tiene una temperatura de " + str(temperatura)+ "Grados Centigrados y con" + self.descripcion 
+
 
   def get_nombre(self):
     """ Regresa el nombre de la ciudad """
