@@ -4,8 +4,11 @@ import requests
 import pandas as pd
 from Voz import Voz
 from City import City
+from Tiempo import Tiempo
+import threading
 
-lista_ciudades=[]
+
+
 class AnalizadorDatos:
 
     def __init__(self):
@@ -95,11 +98,12 @@ class AnalizadorDatos:
 
     def show_dataSet2(self):
         """ Procesa los datos del dataset2 y nos regresa la información deseada """
+
         api_adrees = 'http://api.openweathermap.org/data/2.5/weather?appid=1bfd917ba8b375efeea803bf7b9b1ee0&q=' # Llave del API para obtener info
         start_time = time.time()
         counter=1
         for s in self.ciudades_set2():
-            time.sleep(0.1)#Ayuda en la generación de un delay
+            time.sleep(0.2)#Ayuda en la generación de un delay
             if s in self.cache:
                 ciudad = self.cache[s]
             else:
@@ -114,12 +118,14 @@ class AnalizadorDatos:
                 ciudad = City(s, json_data['main']['temp'], json_data['weather'][0]['description'])
             self.cache[s] = ciudad
 
-            print(ciudad)
+            print("\t"+ str(ciudad))
 
         print("--- %s seconds ---" % (time.time() - start_time))
 
 
-    def emergent_advertisement():
+    def emergent_advertisement(self):
+        print("doing")
+        """ Función auxliar para ordenar las ciudades por hora de salida y repetir a voz """
         path = str(os.getcwd()) #Obtiene la ruta relativa en la computadora de trabajo actual
 
         dataset2 =  pd.read_csv(path + "/resources/dataset/dataset2.csv", names = ["destino", "salida", "llegada", "hora", "fecha de salida"])
@@ -128,32 +134,50 @@ class AnalizadorDatos:
 
         #Esta es una función auxiliar, permite generar avisos audiovisuales para los vuelos próximos a salir
         api_adrees = 'http://api.openweathermap.org/data/2.5/weather?appid=1bfd917ba8b375efeea803bf7b9b1ee0&q=' # Llave del API para obtener info
-
+        contador_externo=1
         for i in range(1,len(dataset2["destino"])):
-            if i%10==0:
-                i+=1
-                break;
-            url=api_adrees + dataset2["destino"][i]
-            json_data = requests.get(url).json()
-            if json_data == {"cod": "404", "message" : "city not found"}:
+            ciudad=None
+            if contador_externo==11==0:
+                contador_externo=1
+                time.sleep(52)
+
+            if dataset2["destino"][i] in self.cache:
+
+                ciudad = self.cache[dataset2["destino"][i]]
+                contador_externo-=1
+            else:
+                url=api_adrees + dataset2["destino"][i]
+                json_data = requests.get(url).json()
+                if json_data == {"cod": "404", "message" : "city not found"}:
+                    continue
+                ciudad = City(dataset2["destino"][i], json_data['main']['temp'], json_data['weather'][0]['description'])
+                contador_externo+=1
+            try:
+                #print(dataset2["salida"][i])
+                ciudad.set_hora_salida(dataset2["salida"][i])
+                print(str(ciudad)+" de hilo")
+            except Exception:
                 continue
-            ciudad = City( dataset2["destino"][i], json_data['main']['temp'], json_data['weather'][0]['description'])
-            ciudad.set_hora_salida(dataset2["salida"])
-            ciudad.set_hora_llegada(dataset2["llegada"])
             lista_ciudades.append(ciudad)
-        lista_ciudades.sort()
+            print(ciudad)
+            
+            if len(lista_ciudades)==5:
+                lista_ciudades.sort()
+                for ciudad in lista_ciudades:
+                    self.advertisement(ciudad.formato(), ciudad.formato_salida())
+                lista_ciudades.clear()
 
-        for ciudad in lista_ciudades:
-            advertisement(ciudad.formato(), ciudad.formato_salida())
 
-
-    def advertisement(cadena_formato, formato_salida):
-        print("=======================================================")
-        print("\t\t" + cadena_formato())
-        print("=======================================================")
+    def advertisement(self,cadena_formato, formato_salida):
+        print("==========================================================================================================")
+        print("\t\t" + str(cadena_formato))
+        print("==========================================================================================================")
         voice= Voz()
+        voice.into_start()
+        voice.greet()
         voice.say(formato_salida)
-        Time.sleep(10000)
+        time.sleep(100)
+
 
 
 

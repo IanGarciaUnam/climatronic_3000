@@ -2,6 +2,7 @@ import requests
 import os
 from googletrans import Translator
 from Tiempo import Tiempo
+import datetime
 class City:
 
 
@@ -15,10 +16,12 @@ class City:
    self.hora_llegada=None
 
   def set_hora_salida(self, hora_salida):
-    self.hora_salida=Time.convert_into_hour(hora_salida)
+    tiempo=Tiempo()
+    self.hora_salida=tiempo.convert_into_hour(str(hora_salida))
 
   def set_hora_llegada(self, hora_llegada):
-    self.hora_llegada=Time.convert_into_hour(hora_llegada)
+    tiempo=Tiempo()
+    self.hora_llegada=tiempo.convert_into_hour(str(hora_llegada))
 
 
   def imprime_ciudad(self):
@@ -34,8 +37,8 @@ class City:
   def formato_salida(self):
     """Regresa una cadena con la informacion lista para ser dicha por la asistente de voz dando información de la hora"""
     if self.temperatura==None or self.descripcion == None:
-      return "Vuelo proximo a salir con horario de las " +self.hora_salida + " y Destino " + self.nombre + "Excelente viaje"
-    return "Vuelo con salida de las "+ self.hora_salida +" horas, con Destino como " + self.nombre + " Tiene una temperatura de " + str(temperatura)+ "Grados Centigrados y con" + self.descripcion 
+      return "Vuelo proximo a salir con horario de las " + str(self.hora_salida) + " y Destino " + str(self.nombre) + "Excelente viaje"
+    return "Vuelo con salida de las "+ str(self.hora_salida.hour) + "horas , y"+ str(self.hora_salida.minute) +" minutos, con Destino como " + str(self.nombre) + " Tiene una temperatura de " + str(self.temperatura)+ "Grados Centigrados y con" + str(self.descripcion) 
 
 
   def get_nombre(self):
@@ -54,6 +57,7 @@ class City:
     if self.hora_salida==None or ciudad.hora_salida==None:
       return self.temperatura > ciudad.temperatura
     return self.hora_salida > ciudad.hora_salida
+    
   def __str__(self):
     return "Ciudad:" + self.nombre +" Temperatura:" + str(self.temperatura)+" °C"+ " Cielo:"+ self.descripcion
   
