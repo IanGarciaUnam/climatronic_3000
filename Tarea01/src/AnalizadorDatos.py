@@ -166,7 +166,7 @@ class AnalizadorDatos:
             lista_ciudades.append(ciudad)
             print(ciudad)
             
-            if len(lista_ciudades)==5:
+            if len(lista_ciudades)==20:
                 lista_ciudades.sort()
                 for ciudad in lista_ciudades:
                     i+=5
@@ -182,7 +182,7 @@ class AnalizadorDatos:
         voice.into_start()
         voice.greet()
         voice.say(formato_salida)
-        time.sleep(25)#Desajustamos sumando 77 sec a los 11 dados tras 11 10 request
+        time.sleep(15)#Desajustamos sumando 77 sec a los 11 dados tras 11 10 request
 
 
 
