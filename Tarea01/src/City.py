@@ -2,7 +2,7 @@ import requests
 import os
 from googletrans import Translator
 from Tiempo import Tiempo
-import datetime
+from datetime import datetime
 class City:
 
 
@@ -32,13 +32,13 @@ class City:
   def formato(self):
     """ Regresa una cadena con la información en formato para que el asistente de voz lo diga"""
 
-    return "Pasajeros con destino a "+ self.nombre+ ", se encuentra con una temperatura de "+ str(self.temperatura) +" Grados Centigrados, Y con "+ self.descripcion
+    return "PROXIMO A ABORDAR "+ self.nombre+ ", TEMPERATURA "+ str(self.temperatura) +" °C, CIELO:"+ self.descripcion
 
   def formato_salida(self):
     """Regresa una cadena con la informacion lista para ser dicha por la asistente de voz dando información de la hora"""
     if self.temperatura==None or self.descripcion == None:
       return "Vuelo proximo a salir con horario de las " + str(self.hora_salida) + " y Destino " + str(self.nombre) + "Excelente viaje"
-    return "Vuelo con salida de las "+ str(self.hora_salida.hour) + "horas , y"+ str(self.hora_salida.minute) +" minutos, con Destino como " + str(self.nombre) + " Tiene una temperatura de " + str(self.temperatura)+ "Grados Centigrados y con" + str(self.descripcion) 
+    return "Vuelo con salida de las "+ str(self.hora_salida.hour) + "horas , i"+ str(self.hora_salida.minute) +" minutos, con Destino como " + str(self.nombre) + " Tiene una temperatura de " + str(self.temperatura)+ "Grados Centigrados y con" + str(self.descripcion) 
 
 
   def get_nombre(self):
@@ -59,7 +59,7 @@ class City:
     return self.hora_salida > ciudad.hora_salida
     
   def __str__(self):
-    return "Ciudad:" + self.nombre +" Temperatura:" + str(self.temperatura)+" °C"+ " Cielo:"+ self.descripcion
+    return   self.nombre +" Temperatura:" + str(self.temperatura)+" °C"+ " Cielo:"+ self.descripcion
   
 
 

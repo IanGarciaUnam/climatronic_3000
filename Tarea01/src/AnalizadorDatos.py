@@ -65,13 +65,13 @@ class AnalizadorDatos:
     
     def destino_llegada(self, ciudad_origen, ciudad_destino):
         # Esto va a ser función de Voz
-        return ciudad_origen.nombre + " se encuentra con una temperatura de: " + str(ciudad_origen.temperatura) + " grados centigrados y un cielo con " + ciudad_origen.descripcion +  ", mientras que " + ciudad_destino.nombre + "se encuentra con una temperatura de: " + str(ciudad_destino.temperatura) + " grados centigrados y  con " + ciudad_destino.descripcion
+        return "ORIGEN: "+str(ciudad_origen) + " >>>>>>>>>> " + "DESTINO: "+str(ciudad_destino) 
 
-    def dataSet1(self):
+    def show_dataSet1(self):
         """ Procesa los datos del dataset1 y nos regresa la información deseada """
         start_time = time.time()
         api_adrees = 'http://api.openweathermap.org/data/2.5/weather?appid=1bfd917ba8b375efeea803bf7b9b1ee0&q=' # Llave del API para obtener info
-
+        counter=1
         for origen in self.ciudades_set1():
 
             aux_ciudadDestino = self.ciudades_set1()[origen]
@@ -81,6 +81,9 @@ class AnalizadorDatos:
                 ciudad_Origen = self.cache[ciudad_origen]
                 ciudad_Destino = self.cache[ciudad_destino]
             else:
+                if counter>=21:
+                    counter=1
+                    time.sleep(10)
                 url_origen = api_adrees + ciudad_origen
                 url_destino = api_adrees + ciudad_destino
 
@@ -89,11 +92,13 @@ class AnalizadorDatos:
 
                 ciudad_Origen = City(ciudad_origen, json_dataOrigen['main']['temp'], json_dataOrigen['weather'][0]['description'])
                 ciudad_Destino = City(ciudad_destino, json_dataDestino['main']['temp'], json_dataDestino['weather'][0]['description']) 
-                
+                counter+=2
             self.cache[ciudad_origen] = ciudad_Origen
             self.cache[ciudad_destino] = ciudad_Destino
-            
-
+            print("*******************************************************************************************************************")
+            print(self.destino_llegada(ciudad_Origen,ciudad_Destino))
+            print("*******************************************************************************************************************")
+            #print("\t\t"+"ORIGEN : "+str(ciudad_origen)+"\t-------->\tDESTINO:\t"+str(ciudad_destino))
         print("--- %s seconds ---" % (time.time() - start_time))
 
     def show_dataSet2(self):
@@ -103,12 +108,12 @@ class AnalizadorDatos:
         start_time = time.time()
         counter=1
         for s in self.ciudades_set2():
-            time.sleep(0.2)#Ayuda en la generación de un delay
             if s in self.cache:
                 ciudad = self.cache[s]
             else:
-                if counter%30==0: #Solo tomamos 30 peticiones para poder tomar 29 de nuestro dataset1
-                    time.sleep(60)
+                if counter>=31:#Solo tomamos 30 peticiones para poder tomar 29 de nuestro dataset1
+                    counter=1 
+                    time.sleep(20)
                 counter+=1
                 url = api_adrees + s
                 json_data = requests.get(url).json()
@@ -117,14 +122,14 @@ class AnalizadorDatos:
 
                 ciudad = City(s, json_data['main']['temp'], json_data['weather'][0]['description'])
             self.cache[s] = ciudad
-
+            print("********************************************************************************")
             print("\t"+ str(ciudad))
+            print("********************************************************************************")
 
         print("--- %s seconds ---" % (time.time() - start_time))
 
 
     def emergent_advertisement(self):
-        print("doing")
         """ Función auxliar para ordenar las ciudades por hora de salida y repetir a voz """
         path = str(os.getcwd()) #Obtiene la ruta relativa en la computadora de trabajo actual
 
@@ -137,9 +142,9 @@ class AnalizadorDatos:
         contador_externo=1
         for i in range(1,len(dataset2["destino"])):
             ciudad=None
-            if contador_externo==11==0:
+            if contador_externo%11==0:
                 contador_externo=1
-                time.sleep(52)
+                time.sleep(11)
 
             if dataset2["destino"][i] in self.cache:
 
@@ -155,7 +160,7 @@ class AnalizadorDatos:
             try:
                 #print(dataset2["salida"][i])
                 ciudad.set_hora_salida(dataset2["salida"][i])
-                print(str(ciudad)+" de hilo")
+                #print(str(ciudad)+" de hilo")
             except Exception:
                 continue
             lista_ciudades.append(ciudad)
@@ -164,6 +169,7 @@ class AnalizadorDatos:
             if len(lista_ciudades)==5:
                 lista_ciudades.sort()
                 for ciudad in lista_ciudades:
+                    i+=5
                     self.advertisement(ciudad.formato(), ciudad.formato_salida())
                 lista_ciudades.clear()
 
@@ -176,7 +182,7 @@ class AnalizadorDatos:
         voice.into_start()
         voice.greet()
         voice.say(formato_salida)
-        time.sleep(100)
+        time.sleep(25)#Desajustamos sumando 77 sec a los 11 dados tras 11 10 request
 
 
 
