@@ -8,9 +8,9 @@ import Tiempo as time
 
 
 
-def say(word):
-		my_word=str(word)
-		tts=gTTS(my_word, lang = 'es-us')
+#def say(word):
+		#my_word=str(word)
+		#tts=gTTS(my_word, lang = 'es-us')
 
 #import speech_recognition as sr
 from Tiempo import Tiempo
