@@ -4,17 +4,19 @@ from Net import Net
 import threading
 comprobador=Net()
 if comprobador.test():
-	start_time = time.time()
 	analizer = AnalizadorDatos()
 
-	hilo= threading.Thread(target=analizer.emergent_advertisement)
-	hilo.start()
 
-	hilo2= threading.Thread(target=analizer.show_dataSet1)
-	hilo2.start()
-	
+	print("***** VUELOS DEL DATASET1 *******")
+	analizer.show_dataSet1()
+	print("****** FINAL DE LOS VUELOS DEL DATASET1 *********")
+	time.sleep(20)
+
+	print("******* VUELOS DEL DATASET2 *************")
 	analizer.show_dataSet2()
-	print("--- %s seconds ---" % (time.time() - start_time))
+	print("****** FINAL DE LOS VUELOS DEL DATASET1 *********")
+
+
 else:
 	print("**************RED NO DISPONIBLE, VERIFIQUE SU CONEXIÓN A INTERNET**************")
 

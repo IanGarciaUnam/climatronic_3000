@@ -1,23 +1,43 @@
 from datetime import datetime
 
 class Tiempo:
-	"""Clase que modela el tiempo dado el año, mes, día y hora."""
+	"""Clase que modela el tiempo dado el año, mes, día y hora.
+	 
+	 Atributos
+	 ----------
+	 now : datatime.now()
+	 	La fecha del dia
+	"""
+
 	def __init__(self):
 		""" Constructor que tiene como atributo el tiempo real."""
 		self.now = datetime.now()
+
 	def get_local_date(self):
-		""" Regresa la fecha local."""
+		""" Regresa la fecha local.
+		 Returns
+		 --------
+		 La fecha local en cadena
+		"""
+
+
 		months = ("Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre")
 		day = self.now.day
 		month = months[self.now.month - 1]
 		year = self.now.year
 		messsage = "{} de {} del {}".format(day, month, year)
 		return messsage
+
 	def get_hour(self):
 		""" Regresa la hora local."""
 		return self.now.hour
+
 	def get_local_time(self):
-		""" Regresa la tienpo local (AM) o (PM)."""
+		""" Regresa la tienpo local (AM) o (PM).
+		 Returns
+		 -------
+		 El tiempo local en AM o PM
+		 """
 		hora = int(self.now.hour)
 		minute = self.now.minute
 		sun = 'am'
@@ -43,7 +63,16 @@ class Tiempo:
 		return 'AM'
 
 	def convert_into_hour(self,hora_string):
-		"""Regresa una hora convertida en fecha"""
+		""" Regresa una hora convertida en fecha
+		Parametros
+		----------
+		hora_string : str
+		 hora a procesar
+		
+	    Returns
+		--------
+		Una hora convertida en fecha
+		"""
 		text = str(hora_string)
 		hora = datetime.strptime(text, '%H:%M')
-		return hora #str(hora.hour) + " y " + str(hora.minute) + select
+		return hora 

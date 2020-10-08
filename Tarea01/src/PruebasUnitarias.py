@@ -26,6 +26,7 @@ class PrubasUnitarias(unittest.TestCase):
         self.assertEqual(city.__str__() , city.get_nombre() + " Temperatura: " + city.get_temperatura()+ " °C"+ " Cielo: " + city.get_descripcion_clima() + " Humedad: " + ciudad.get_humedad())
     
     def test_requests(self):
+        """ Prueba unitaria para ver que una ciudad existe en el dataset2 """
         conjunto = analizer.ciudades_set2()
         lista = []
         for e in conjunto:
