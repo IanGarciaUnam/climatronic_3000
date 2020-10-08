@@ -65,7 +65,7 @@ class AnalizadorDatos:
          """
 
         json = requests.get(url).json()
-        ciudad = City(nombre, json['main']['temp'], json['weather'][0]['description'], json['main']['humidity']) 
+        ciudad = City(nombre, json['main']['temp'], json['weather'][0]['description'], json['main']['humidity'], json['main']['temp_max'], json['main']['temp_min']) 
         self.cache[nombre] = ciudad
         
         return ciudad
@@ -201,7 +201,7 @@ class AnalizadorDatos:
             url = api_adrees + s
             json_data = requests.get(url).json()
             if json_data != {"cod":"404","message":"city not found"}:
-                ciudad = City(s, json_data['main']['temp'], json_data['weather'][0]['description'], json_data['main']['humidity'])
+                ciudad = City(s, json_data['main']['temp'], json_data['weather'][0]['description'], json_data['main']['humidity'], json_data['main']['temp_max'], json_data['main']['temp_min'])
                 self.cache[s] = ciudad
             print("********************************************************************************")
             print("\t"+ str(ciudad))
@@ -251,7 +251,7 @@ class AnalizadorDatos:
                 json_data = requests.get(url).json()
                 if json_data == {"cod": "404", "message" : "city not found"}:
                     continue
-                ciudad = City(dataset2["destino"][i], json_data['main']['temp'], json_data['weather'][0]['description'], json_data['main']['humidity'])
+                ciudad = City(dataset2["destino"][i], json_data['main']['temp'], json_data['weather'][0]['description'], json_data['main']['humidity'], json_data['main']['temp_max'], json_data['main']['temp_min'])
                 contador_externo+=1
             try:
                 #print(dataset2["salida"][i])

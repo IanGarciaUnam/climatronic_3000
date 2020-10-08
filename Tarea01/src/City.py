@@ -24,7 +24,7 @@ class City:
       humedad de una ciudad
   """
 
-  def __init__(self, nombre, temperatura, descripcion, humedad):
+  def __init__(self, nombre, temperatura, descripcion, humedad, temp_max, temp_min):
    """ Contructor a partir del nombre, temperatura y descripción
     Parametros
     ----------
@@ -36,6 +36,10 @@ class City:
       La descripción de la ciudad
     humedad : int
       La humedad de la ciudad
+    temp_max : float
+     La temperatura máxima de la ciudad
+    temp_min : float
+     La temperatura mínima de la ciudad
 
     Returns
     --------
@@ -49,6 +53,8 @@ class City:
    self.hora_salida = None # Hora de salida si la ciudad es del dataset1
    self.hora_llegada = None # Hora de llegada si la ciudad es del dataset1
    self.humedad = humedad
+   self.temp_max = int(temp_max - 273.15)
+   self.temp_min = int(temp_min -273.15)
 
   def set_hora_salida(self, hora_salida):
     """ Define la hora de salida del vuelo de la ciudad 
@@ -104,6 +110,14 @@ class City:
     """ Regresa la humedad de la ciudad """
     return str(self.humedad)
 
+  def get_temp_min(self):
+    """ Regresa la temperatura minima """
+    return str(self.temp_min)
+
+  def get_temp_max(self):
+    """ Regresa la temperatura máxima """
+    return str(self.temp_max)
+
   
   def __gt__(self, ciudad):
     """ Compara una ciudad con otra dado la hora de salida y llegada 
@@ -118,7 +132,7 @@ class City:
     
   def __str__(self):
     """ Regresa la representación en cadena de una ciudad """
-    return  self.nombre +" Temperatura: " + str(self.temperatura)+" °C"+ " Cielo: "+ self.descripcion + " Humedad: " + str(self.humedad)
+    return  self.nombre + " Temperatura: " + str(self.temperatura) + " °C" + " Temperatura minima: " + str(self.temp_min) + " °C" +  " Temperatura máxima: " + str(self.temp_max)  + " °C" +  " Cielo: "+ self.descripcion + " Humedad: " + str(self.humedad)
   
 
 
