@@ -6,22 +6,24 @@ from datetime import datetime
 class City:
 
 
-  def __init__(self, nombre, temperatura, descripcion):
+  def __init__(self, nombre, temperatura, descripcion, humedad):
    """ Contructor a partir del nombre, temperatura y descripción"""
    self.nombre = nombre
    self.temperatura = int(temperatura - 273.15) # La temperatura del API está en Kelvin, los convertimos a °C
    self.transalator = Translator() # Tradcutor para la descripción del cielo
    self.descripcion = self.transalator.translate(descripcion, src = 'en', dest = 'es').text
-   self.hora_salida=None
-   self.hora_llegada=None
+   self.hora_salida = None
+   self.hora_llegada = None
+   self.humedad = humedad
 
   def set_hora_salida(self, hora_salida):
-    tiempo=Tiempo()
-    self.hora_salida=tiempo.convert_into_hour(str(hora_salida))
+    """ Define la hora de salida del vuelo de la ciudad """
+    tiempo = Tiempo()
+    self.hora_salida = tiempo.convert_into_hour(str(hora_salida))
 
   def set_hora_llegada(self, hora_llegada):
     tiempo=Tiempo()
-    self.hora_llegada=tiempo.convert_into_hour(str(hora_llegada))
+    self.hora_llegada = tiempo.convert_into_hour(str(hora_llegada))
 
 
   def imprime_ciudad(self):
@@ -38,7 +40,7 @@ class City:
     """Regresa una cadena con la informacion lista para ser dicha por la asistente de voz dando información de la hora"""
     if self.temperatura==None or self.descripcion == None:
       return "Vuelo proximo a salir con horario de las " + str(self.hora_salida) + " y Destino " + str(self.nombre) + "Excelente viaje"
-    return "Vuelo con salida de las "+ str(self.hora_salida.hour) + "horas , i"+ str(self.hora_salida.minute) +" minutos, con Destino como " + str(self.nombre) + " Tiene una temperatura de " + str(self.temperatura)+ "Grados Centigrados y con" + str(self.descripcion) 
+    return "Vuelo con salida de las "+ str(self.hora_salida.hour) + "horas , i"+ str(self.hora_salida.minute) +" minutos, con Destino como " + str(self.nombre) + " Tiene una temperatura de " + str(self.temperatura)+ "Grados Centigrados y con" + str(self.descripcion) + " y tiene una humedad de " + str(self.humedad) + " porciento." 
 
 
   def get_nombre(self):
@@ -52,6 +54,10 @@ class City:
   def get_descripcion_clima(self):
     """ Regresa la descripción de la ciudad """
     return str(self.descripcion)
+  
+  def get_humedad(self):
+    """ Regresa la humedad de la ciudad """
+    return str(self.humedad)
 
   def __gt__(self, ciudad):
     if self.hora_salida==None or ciudad.hora_salida==None:
@@ -59,7 +65,7 @@ class City:
     return self.hora_salida > ciudad.hora_salida
     
   def __str__(self):
-    return   self.nombre +" Temperatura:" + str(self.temperatura)+" °C"+ " Cielo:"+ self.descripcion
+    return  self.nombre +" Temperatura: " + str(self.temperatura)+" °C"+ " Cielo: "+ self.descripcion + " Humedad: " + str(self.humedad)
   
 
 

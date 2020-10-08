@@ -44,6 +44,6 @@ class Tiempo:
 
 	def convert_into_hour(self,hora_string):
 		"""Regresa una hora convertida en fecha"""
-		text=str(hora_string)
-		hora=datetime.strptime(text, '%H:%M')
+		text = str(hora_string)
+		hora = datetime.strptime(text, '%H:%M')
 		return hora #str(hora.hour) + " y " + str(hora.minute) + select
