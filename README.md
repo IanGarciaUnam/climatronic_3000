@@ -1,5 +1,5 @@
 # Climatronic 3000
-#### Diseñado por:  David Hernández Urióstegui | No. de Cuenta:    <-> Ian Israel García Vázquez | No. de Cuenta: 317097364
+#### Diseñado por:  David Hernández Urióstegui | No. de Cuenta: 420003708   <-> Ian Israel García Vázquez | No. de Cuenta: 317097364
 ## ¿Cómo usar?
 
 ----
