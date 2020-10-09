@@ -1,43 +1,47 @@
 from AnalizadorDatos import AnalizadorDatos
 from City import City
+from Tiempo import Tiempo
+from datetime import datetime
 import unittest
 import random
 import requests
-analizer = AnalizadorDatos()
-class PrubasUnitarias(unittest.TestCase):
+import socket
+from Net import Net
+
+class PruebasUnitarias(unittest.TestCase):
     """ Clase para para pruebas unitarias """
-    def test_cacheSet1(self):
-        """ Pruba unitaria para verfiicar que el caché después de procesar el dataset1 contenga el mismo de número de ciudades que hay en el dataset1 """
-        analizer.show_dataSet1()
-        self.assertEquals(len(analizer.get_cache()), len(analizer.get_ciudades()))
+    def prueba_internet(self):
+        tester = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        try:
+            tester.connect(("www.facebook.com", 80))
+            return True
+        except:
+            tester.close()
+        return False
+
+    def test_red(self):
+        """ Prueba para verificar el Verificador de conexión a internet"""
+        n=Net()
+
+        self.assertEqual(self.prueba_internet(), n.test())
     
     def test_ciudadString(self):
         """ Prueba unitaria para verificar que __str__ de una ciudad funciona correctamente """
-        conjunto = analizer.ciudades_set2()
-        lista = []
-        for e in conjunto:
-            lista.append(e) 
-        
-        ciudad = random.choice(lista)
-        url = 'http://api.openweathermap.org/data/2.5/weather?appid=1bfd917ba8b375efeea803bf7b9b1ee0&q=' + ciudad
-
-        city = analizer.crea_ciudad(url, ciudad)
-
-        self.assertEqual(city.__str__() , city.get_nombre() + " Temperatura: " + city.get_temperatura()+ " °C"+ " Cielo: " + city.get_descripcion_clima() + " Humedad: " + ciudad.get_humedad())
+        ciudad= City("CDMX", 30, "nublado", 30, 12, 25)
+        self.assertEqual(ciudad.__str__() , ciudad.get_nombre() + " Temperatura: " + ciudad.get_temperatura() + " °C" + " Temperatura minima: " + ciudad.get_temp_min() + " °C" +  " Temperatura máxima: " + ciudad.get_temp_max()  + " °C" +  " Cielo: "+ ciudad.get_descripcion_clima() + " Humedad: " + ciudad.get_humedad() + " %")
     
-    def test_requests(self):
-        """ Prueba unitaria para ver que una ciudad existe en el dataset2 """
-        conjunto = analizer.ciudades_set2()
-        lista = []
-        for e in conjunto:
-            lista.append(e) 
+    def test_string_hora(self):
+        """ Prueba unitaria para convertir un string a hora"""
+        my_string="Hola que hace"
+        t=Tiempo()
+        try:
+            h=t.convert_into_hour(my_string)
+        except ValueError:
+            print("Accepted")
 
-        ciudad = random.choice(lista)
-        url = 'http://api.openweathermap.org/data/2.5/weather?appid=1bfd917ba8b375efeea803bf7b9b1ee0&q=' + ciudad
+        self.assertEqual(datetime.strptime("12:23", '%H:%M'),t.convert_into_hour("12:23"))
 
-        json = requests.get(url).json()
-
-        self.assertNotEqual(json, {"cod":"404","message":"city not found"})
 
 
 

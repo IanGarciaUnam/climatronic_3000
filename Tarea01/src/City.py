@@ -85,13 +85,13 @@ class City:
   def formato(self):
     """ Regresa una cadena con la información en formato para que el asistente de voz lo diga"""
 
-    return "PROXIMO A ABORDAR: "+ self.nombre+ ", TEMPERATURA: "+ str(self.temperatura) +" °C, CIELO: "+ self.descripcion
+    return "PROXIMO A ABORDAR: "+ self.nombre+ ", TEMPERATURA: "+ str(self.temperatura) +" °C, CIELO: "+ self.descripcion + " HÚMEDAD: " + str(self.humedad)+"%" + "  [SALIDA: " +  str(self.hora_salida.hour)+":"+str(self.hora_salida.minute) + " hrs]"
 
   def formato_salida(self):
     """Regresa una cadena con la informacion lista para ser dicha por la asistente de voz dando información de la hora"""
     if self.temperatura == None or self.descripcion == None:
       return "Vuelo proximo a salir con horario de las " + str(self.hora_salida) + " y Destino " + str(self.nombre) + "Excelente viaje"
-    return "Vuelo con salida de las "+ str(self.hora_salida.hour) + "horas , i"+ str(self.hora_salida.minute) +" minutos, con Destino como " + str(self.nombre) + " Tiene una temperatura de " + str(self.temperatura)+ "Grados Centigrados y con" + str(self.descripcion) + " y tiene una humedad de " + str(self.humedad) + " porciento." 
+    return "Vuelo con salida de las "+ str(self.hora_salida.hour) + "horas , i"+ str(self.hora_salida.minute) +" minutos, con Destino como " + str(self.nombre) + " Tiene una temperatura de " + str(self.temperatura)+ "Grados Centigrados,   cielo con "+str(self.descripcion) + " y con una húmedad de " + str(self.humedad) + " porciento. Feliz Viaje" 
 
 
   def get_nombre(self):
@@ -132,7 +132,7 @@ class City:
     
   def __str__(self):
     """ Regresa la representación en cadena de una ciudad """
-    return  self.nombre + " Temperatura: " + str(self.temperatura) + " °C" + " Temperatura minima: " + str(self.temp_min) + " °C" +  " Temperatura máxima: " + str(self.temp_max)  + " °C" +  " Cielo: "+ self.descripcion + " Humedad: " + str(self.humedad)
+    return  self.nombre + " Temperatura: " + str(self.temperatura) + " °C" + " Temperatura minima: " + str(self.temp_min) + " °C" +  " Temperatura máxima: " + str(self.temp_max)  + " °C" +  " Cielo: "+ self.descripcion + " Humedad: " + str(self.humedad) + " %"
   
 
 

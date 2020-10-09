@@ -2,19 +2,22 @@ import time
 from AnalizadorDatos import AnalizadorDatos
 from Net import Net
 import threading
+
 comprobador=Net()
 if comprobador.test():
 	analizer = AnalizadorDatos()
-
-
-	print("***** VUELOS DEL DATASET1 *******")
-	analizer.show_dataSet1()
-	print("****** FINAL DE LOS VUELOS DEL DATASET1 *********")
+	hilo1= threading.Thread(target=analizer.show_dataSet1)
 	time.sleep(20)
+	hilo2= threading.Thread(target=analizer.show_dataSet2)
+	hilo3= threading.Thread(target=analizer.emergent_advertisement)
+	hilo3.start()
+	hilo2.start()
+	hilo1.start()
 
-	print("******* VUELOS DEL DATASET2 *************")
-	analizer.show_dataSet2()
-	print("****** FINAL DE LOS VUELOS DEL DATASET1 *********")
+	hilo1.join()
+	hilo2.join()
+	hilo3.join()
+
 
 
 else:
