@@ -28,7 +28,7 @@ dicha carpeta contiene 4 carpetas y un archivo .mp3, es importante saber que de 
 ```
 Documentacion
 ```
-COntine un PDF escrito en LaTex, sobre todo lo que necesitas saber sobre el programa: Costos, funcionamientos, Desarrollo y aquello que hoy no lo parece pero en el futuro de su mantenimiento y revisión será muy necesario
+Contine un PDF escrito en LaTex, sobre todo lo que necesitas saber sobre el programa: Costos, funcionamientos, Desarrollo y aquello que hoy no lo parece pero en el futuro de su mantenimiento y revisión será muy necesario
 
 
 ```
