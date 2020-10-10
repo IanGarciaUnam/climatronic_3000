@@ -23,7 +23,14 @@ Este consta de una carpeta src, que contine todo el código legible,interpretabl
 resources
 ```
 
-dicha carpeta contiene 3 carpetas y un archivo .mp3, es importante saber que de manipular 
+dicha carpeta contiene 4 carpetas y un archivo .mp3, es importante saber que de manipular 
+
+```
+Documentacion
+```
+COntine un PDF escrito en LaTex, sobre todo lo que necesitas saber sobre el programa: Costos, funcionamientos, Desarrollo y aquello que hoy no lo parece pero en el futuro de su mantenimiento y revisión será muy necesario
+
+
 ```
 dataset
 ```
