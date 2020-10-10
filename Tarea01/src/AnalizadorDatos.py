@@ -6,8 +6,6 @@ import pandas as pd
 from Voz import Voz
 from City import City
 from Tiempo import Tiempo
-import keyboard
-import threading
 from concurrent.futures import ThreadPoolExecutor
 
 
@@ -40,7 +38,7 @@ class AnalizadorDatos:
                     }   
         self.cache = {} # Caché para evitar hacer más requests de las necesarias
         self.counter = 0 # Contador de peticiones
-        self.lista_ciudades=[] 
+        self.lista_ciudades = [] 
         
 
     def get_ciudades(self):
@@ -53,7 +51,7 @@ class AnalizadorDatos:
         """ Regresa el contador de peticiones """
         return self.counter
 
-    def crea_ciudad(self, url, nombre):
+    def crea_ciudad(self, url, nombre, session):
         """ Crea una ciudad a partir de un request 
          Parametros
          ----------
@@ -67,7 +65,7 @@ class AnalizadorDatos:
          Ciudad con datos procesados
          """
 
-        json = requests.get(url).json()
+        json = session.get(url).json()            
         ciudad = City(nombre, json['main']['temp'], json['weather'][0]['description'], json['main']['humidity'], json['main']['temp_max'], json['main']['temp_min']) 
         self.cache[nombre] = ciudad
         return ciudad
@@ -89,6 +87,7 @@ class AnalizadorDatos:
         for i in range(1,len(dataset1["origin"])):
             tupla = (dataset1["origin"][i], dataset1["destination"][i])
             conjunto.add(tupla)
+        self.len_dataset1 = len(conjunto)
 
         return conjunto
     
@@ -108,6 +107,7 @@ class AnalizadorDatos:
         # Metemos en un conjunto todas las ciudades del dataset2 
         for i in range(1,len(dataset2["destino"])):
             conjunto.add(dataset2["destino"][i])
+        self.len_dataset2 = len(conjunto)
 
         return conjunto
     
@@ -128,7 +128,7 @@ class AnalizadorDatos:
         return "ORIGEN: " +str(ciudad_origen) + " >>>>>>>>>> " + "DESTINO: "+ str(ciudad_destino) + "\n" 
     
 
-    def verifica_cacheSet1(self, api_adrees, ciudad1, ciudad2):
+    def verifica_cacheSet1(self, api_adrees, ciudad1, ciudad2, session):
         """ Verifica e imprime la información del dataset1 
          Parametros
          ----------
@@ -148,11 +148,11 @@ class AnalizadorDatos:
 
         elif ciudad_origen in self.cache and ciudad_destino not in self.cache:
             ciudad_Origen = self.cache[ciudad_origen]
-            ciudad_Destino = self.crea_ciudad(api_adrees + ciudad_destino, ciudad_destino)
+            ciudad_Destino = self.crea_ciudad(api_adrees + ciudad_destino, ciudad_destino, session)
             self.counter += 1
         elif ciudad_origen not in self.cache and ciudad_destino in self.cache:
             ciudad_Destino = self.cache[ciudad_destino] 
-            ciudad_Origen = self.crea_ciudad(api_adrees + ciudad_origen, ciudad_origen)
+            ciudad_Origen = self.crea_ciudad(api_adrees + ciudad_origen, ciudad_origen, session)
             self.counter += 1
 
         else:
@@ -160,8 +160,8 @@ class AnalizadorDatos:
                 self.counter = 1
                 time.sleep(10)
 
-            ciudad_Origen = self.crea_ciudad(api_adrees + ciudad_origen, ciudad_origen)
-            ciudad_Destino = self.crea_ciudad(api_adrees + ciudad_destino, ciudad_destino) 
+            ciudad_Origen = self.crea_ciudad(api_adrees + ciudad_origen, ciudad_origen, session)
+            ciudad_Destino = self.crea_ciudad(api_adrees + ciudad_destino, ciudad_destino, session) 
             self.counter += 2
         print("*******************************************************************************************************************")
         print(self.show_destino_llegada(ciudad_Origen,ciudad_Destino))
@@ -176,14 +176,14 @@ class AnalizadorDatos:
         session = requests.Session()
         with pool:
             with session:
-                for tupla in self.ciudades_set1():
-                    future = pool.submit(self.verifica_cacheSet1, api_adrees, tupla[0], tupla[1])
+                pool.map(self.verifica_cacheSet1, [api_adrees] * len(self.ciudades_set1()), [tupla[0] for tupla in self.ciudades_set1()], [tupla[1] for tupla in self.ciudades_set1()], [session] * len(self.ciudades_set1()))
+                    #pool.submit(self.verifica_cacheSet1, api_adrees, tupla[0], tupla[1])
 
         print(self.get_counter())
 
         print("--- %s seconds ---" % (time.time() - start_time))
 
-    def verifica_cacheSet2(self, api_adrees, s):
+    def verifica_cacheSet2(self, api_adrees, s, session):
         """ Procesa e imprime la información de una ciudad del dataset2 
          Parametros
          ----------
@@ -200,7 +200,7 @@ class AnalizadorDatos:
                 time.sleep(60)
             self.counter += 1
             url = api_adrees + s
-            json_data = requests.get(url).json()
+            json_data = session.get(url).json()
             if json_data != {"cod":"404","message":"city not found"}:
                 ciudad = City(s, json_data['main']['temp'], json_data['weather'][0]['description'], json_data['main']['humidity'], json_data['main']['temp_max'], json_data['main']['temp_min'])
                 self.cache[s] = ciudad
@@ -209,7 +209,7 @@ class AnalizadorDatos:
                 print("************************************************************************************")
 
 
-    def do_request(self,api_adrees,s):
+    def do_request(self, api_adrees, s):
         """ Procesa e imprime la información de una ciudad del dataset2 
          Parametros
          ----------
@@ -236,16 +236,14 @@ class AnalizadorDatos:
 
     def show_dataSet2(self):
         """ Procesa los datos del dataset2 y nos regresa la información deseada """
-        start_time = time.time()
         api_adrees = 'http://api.openweathermap.org/data/2.5/weather?appid=ffc17aa1a660f2b034fc2347ab4ade79&q=' # Llave del API para obtener info
         pool = ThreadPoolExecutor(max_workers=10)
         session = requests.Session()
 
         with pool:
             with session:
-                for s in self.ciudades_set2():
-                    future = pool.submit(self.verifica_cacheSet2, api_adrees, s)
-        print("--- %s seconds ---" % (time.time() - start_time))
+                #pool.submit(self.verifica_cacheSet2, api_adrees, s)
+                pool.map(self.verifica_cacheSet2, [api_adrees] * len(self.ciudades_set2()), [s for s in self.ciudades_set2()], [session] * len(self.ciudades_set2()))
             
 
 
@@ -253,7 +251,6 @@ class AnalizadorDatos:
     def emergent_advertisement(self):
         """Función auxliar para pasar las ciudades del cache a una lista con su hora de salida""" 
      
-        start_time = time.time()
         path = str(os.getcwd()) #Obtiene la ruta relativa en la computadora de trabajo actual
         dataset2 =  pd.read_csv(path + "/resources/dataset/dataset2.csv", names = ["destino", "salida", "llegada", "hora", "fecha de salida"])
 
@@ -272,13 +269,18 @@ class AnalizadorDatos:
                 if json_data == {"cod": "404", "message" : "city not found"}:
                     continue
                 ciudad = City(dataset2["destino"][i], json_data['main']['temp'], json_data['weather'][0]['description'], json_data['main']['humidity'], json_data['main']['temp_max'], json_data['main']['temp_min'])
-                ciudad.set_hora_salida(dataset2["salida"][i]);
+                ciudad.set_hora_salida(dataset2["salida"][i])
                 contador_externo+=1
                 self.advertisement(ciudad)
 
 
-    def advertisement(self,ciudad):
-        """ Imprime la información de todas la ciudades cuando se encuentran por ser abordadas""" 
+    def advertisement(self, ciudad):
+        """ Imprime la información de todas la ciudades cuando se encuentran por ser abordadas 
+         Parametros 
+         ----------
+         ciudad : City
+          vuelo de la ciudad a ser abordado
+        """ 
         print("==========================================================================================================")
         print("\t\t" + str(ciudad.formato()))
         print("==========================================================================================================")

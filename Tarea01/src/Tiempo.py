@@ -14,7 +14,7 @@ class Tiempo:
 		self.now = datetime.now()
 
 	def get_local_date(self):
-		""" Regresa la fecha local.
+		""" 	.
 		 Returns
 		 --------
 		 La fecha local en cadena
@@ -62,12 +62,13 @@ class Tiempo:
 			return 'PM'
 		return 'AM'
 
-	def convert_into_hour(self,hora_string):
+	def convert_into_hour(self, hora_string):
 		""" Regresa una hora convertida en fecha
-		Parametros
-		----------
-		hora_string : str
-		 hora a procesar
+
+		 Parametros
+		 -----------
+		 hora_string : str
+		   hora a procesar
 		
 	    Returns
 		--------

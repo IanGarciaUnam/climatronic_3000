@@ -22,6 +22,10 @@ class City:
       hora de llegada de una ciudad
     humedad : int
       humedad de una ciudad
+    temp_max : int
+      temperatura máxima de una ciudad
+    temp_min : int
+      temperatura minima de una ciudad
   """
 
   def __init__(self, nombre, temperatura, descripcion, humedad, temp_max, temp_min):
