@@ -39,7 +39,7 @@ Los efectos pueden generar daños a la ejecución general del programa pues cont
 ```
 greeting
 ```
-COntiene archivos de texto, que permiten a la voz saludar de forma  casi impredecible, pueden manipularse, pero recuerde que cualquier frase escrita ahí, podría ser Leída por el alto parlante
+Contiene archivos de texto, que permiten a la voz saludar de forma  casi impredecible, pueden manipularse, pero recuerde que cualquier frase escrita ahí, podría ser Leída por el alto parlante
 
 ```
 tones
@@ -52,12 +52,12 @@ speaking.mp3
 Recomendamos no manipularlo durante la ejecución del programa, pues ahí se encuentra la voz, sin embargo antes de la ejecución del programa y tras finalizar, puede ser utilizado como cualquier archivo de extensión .mp3
 
 # Como empezar
-Primero que nada, es necesario mencionar que se encuentra escrito en Python, bajo las versiones superiores o iguales a Python3.8, por ello es recomendable actualizar a la versión de Python más reciente a tu ordenador, de lo contrario podrían ocurrir algunas fallas, y  de igual manera recomendamos ejecutar en ordenadores con Sistema Operativo GNU LINUX en cualquiera de sus versiones. 
+Primero que nada, es necesario mencionar que se encuentra escrito en Python, bajo las versiones superiores o iguales a Python 3.8, por ello es recomendable actualizar a la versión de Python más reciente a tu ordenador, de lo contrario podrían ocurrir algunas fallas, y  de igual manera recomendamos ejecutar en ordenadores con Sistema Operativo GNU LINUX en cualquiera de sus versiones. 
 Asimismo es necesario instalar algunas bibliotecas extras, no es necesario que te preocupes por instalar de forma correcta cada una de ellas, gracias a un script de auto-instalación
 
 
 ## Prerequisitos
-* Verifica utilizar una versión superior a Python3.6 :
+* Verifica utilizar una versión superior a Python 3.6 :
 ```
 python --version
 ```
