@@ -1,2 +1,2 @@
 #!/bin/sh
-python Menu.py
+python3 Menu.py

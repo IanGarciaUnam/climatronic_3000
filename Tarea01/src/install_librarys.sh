@@ -1,7 +1,7 @@
 #!/bin/sh
 
-pip install gTTS
-pip install googletrans
-pip install keyboard
-pip install playsound
-pip install pandas
+pip3 install gTTS
+pip3 install googletrans
+pip3 install keyboard
+pip3 install playsound
+pip3 install pandas
